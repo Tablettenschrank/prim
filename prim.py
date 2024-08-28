@@ -4,7 +4,8 @@ import time
 start_time = time.time()
 
 processes = 7
-limit1 = 100_000_00
+limit1 = 100_000_000
+chunksize=20_000_000
 
 #print('IMPORTANT! You Should have a "prim.txt"')
 with open("prim.txt","w") as f:
@@ -22,7 +23,7 @@ def primZahl(zahl):
 if __name__ == "__main__":
     limit = range(2,limit1)
     with multiprocessing.Pool(processes) as p:
-        ergebnis = p.map(primZahl,limit,chunksize=1_000_000)
+        ergebnis = p.map(primZahl,limit,chunksize)
 
     with open("prim.txt","a") as f:
                 f.write(str(ergebnis).replace("None, ",""))
@@ -45,14 +46,19 @@ if __name__ == "__main__":
         limit1txt = f"{limit1:_}"
         limit1txt = limit1txt.replace("_",".")
 
+        chunksize = f"{chunksize:_}"
+        chunksize = chunksize.replace("_",".")
+
+
     # print("---------------------------------")
     # print(len(ergebnis),"Prim's")
     # print(a)
     print("---------------------------------")
-    print("0","-",limit1)
+    print("0","-",limit1txt)
     print("")
     print("Last Number: ",c)
     print("Calculatet Prim's: ",e)
+    print("chunksize: ",chunksize )
     runtime = end_time - start_time
     print(f"{runtime:.3f}","Seconds")
     print(f"{runtime/60:.3f}","Minutes")

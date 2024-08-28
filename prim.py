@@ -35,13 +35,8 @@ if __name__ == "__main__":
     
     end_time = time.time()
     with open("prim.txt","a") as f:
-                ergebniss2 = str(ergebniss)
-                ergebniss2 = ergebniss2.replace("[","")
-                ergebniss2 = ergebniss2.replace("]","")
-                f.write(ergebniss2)
-                f.close()
-    with open("prim.txt","r") as f:
-        a = f.read()
+        weg = ", ".join(map(str,ergebniss))
+        f.write(weg)
         f.close()
     ergebnissAmount = len(ergebniss)
     lastNumber = ergebniss[-1]

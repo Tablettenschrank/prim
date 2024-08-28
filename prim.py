@@ -7,12 +7,17 @@ start_time = time.time()
 
 processes = 7
 limit0 = 3 # 3 is default
-limit1 = 50_000_000
-chunksize=100_000
+limit1 = 50_000_00
+chunksize=100_00
 
 with open("prim.txt","w") as f:
     f.write("")
     f.close()
+
+def Format(string1:str)-> str:
+    string2 = f"{string1:_}"
+    string2 = string2.replace("_",".")
+    return string2
 
 @njit
 def primZahl(zahl:int):
@@ -26,44 +31,28 @@ def primZahl(zahl:int):
 if __name__ == "__main__":
     limit = range(limit0,limit1,2)
     with multiprocessing.Pool(processes) as p:
-        ergebnis = list(filter(None,p.map(primZahl,limit,chunksize)))
+        ergebniss = list(filter(None,p.map(primZahl,limit,chunksize)))
     
     with open("prim.txt","a") as f:
-                ergebnis2 = str(ergebnis)
-                ergebnis2 = ergebnis2.replace("[","")
-                ergebnis2 = ergebnis2.replace("]","")
-                f.write(ergebnis2)
+                ergebniss2 = str(ergebniss)
+                ergebniss2 = ergebniss2.replace("[","")
+                ergebniss2 = ergebniss2.replace("]","")
+                f.write(ergebniss2)
                 f.close()
-    ergebnis3 = ergebnis
+    ergebniss3 = ergebniss
     end_time = time.time()
     with open("prim.txt","r") as f:
         a = f.read()
         f.close()
-        b = ergebnis3[-1]
-
-        c = f"{b:_}"
-        c = c.replace("_",".")
+    ergebnissAmount = len(ergebniss)
+    lastNumber = ergebniss3[-1]
         
-        d = len(ergebnis)
-        e = f"{d:_}"
-        e = e.replace("_",".")
-
-        limit1txt = f"{limit1:_}"
-        limit1txt = limit1txt.replace("_",".")
-
-        limit0txt = f"{limit0:_}"
-        limit0txt = limit0txt.replace("_",".")
-
-        chunksize = f"{chunksize:_}"
-        chunksize = chunksize.replace("_",".")
-        
-
     print("---------------------------------")
-    print(limit0,"-",limit1txt)
+    print(Format(limit0),"-",Format(limit1))
     print("")
-    print("Last Number: ",c)
-    print("Calculatet Prim's: ",e)
-    print("chunksize: ",chunksize )
+    print("Last Number: ",Format(lastNumber))
+    print("Calculatet Prim's: ",Format(ergebnissAmount))
+    print("chunksize: ",Format(chunksize))
     print("")
     runtime = end_time - start_time
     print(f"{runtime:.3f}","Seconds")

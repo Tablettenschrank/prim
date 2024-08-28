@@ -7,8 +7,8 @@ start_time = time.time()
 
 processes = 10
 limit0 = 3 # 3 is default
-limit1 = 100_000_000
-chunksize=10_000
+limit1 = 250_000_000
+chunksize=20_000
 
 with open("prim.txt","w") as f:
     f.write("")

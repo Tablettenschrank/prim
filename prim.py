@@ -33,19 +33,18 @@ if __name__ == "__main__":
     with multiprocessing.Pool(processes) as p:
         ergebniss = list(filter(None,p.map(primZahl,limit,chunksize)))
     
+    end_time = time.time()
     with open("prim.txt","a") as f:
                 ergebniss2 = str(ergebniss)
                 ergebniss2 = ergebniss2.replace("[","")
                 ergebniss2 = ergebniss2.replace("]","")
                 f.write(ergebniss2)
                 f.close()
-    ergebniss3 = ergebniss
-    end_time = time.time()
     with open("prim.txt","r") as f:
         a = f.read()
         f.close()
     ergebnissAmount = len(ergebniss)
-    lastNumber = ergebniss3[-1]
+    lastNumber = ergebniss[-1]
         
     print("---------------------------------")
     print(Format(limit0),"-",Format(limit1))

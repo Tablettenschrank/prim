@@ -5,10 +5,10 @@ from numba import njit
 
 start_time = time.time()
 
-processes = 7
+processes = 10
 limit0 = 3 # 3 is default
-limit1 = 50_000_00
-chunksize=100_00
+limit1 = 100_000_000
+chunksize=10_000
 
 with open("prim.txt","w") as f:
     f.write("")

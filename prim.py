@@ -1,11 +1,13 @@
 import multiprocessing
 import time
+import math
+from numba import njit
 
 start_time = time.time()
 
 processes = 7
-limit1 = 100_000_000
-chunksize=20_000_000
+limit1 = 100_0_0
+chunksize=2_0_000
 
 #print('IMPORTANT! You need a "prim.txt" file!')
 #print('IMPORTANT! You need a "prim.txt" file!')
@@ -19,26 +21,33 @@ with open("prim.txt","w") as f:
 def primZahl(zahl):
     if zahl <= 1:
         return
+    if zahl % 2 == 0:
+        return
     for i in range(2, int(zahl ** 0.5) + 1):
         if zahl % i == 0:
             return
-    return zahl
+    return zahl    
 
 if __name__ == "__main__":
-    limit = range(2,limit1)
+    limit = range(3,limit1,2)
     with multiprocessing.Pool(processes) as p:
-        ergebnis = p.map(primZahl,limit,chunksize)
-
+        ergebnis = list(filter(None,p.map(primZahl,limit,chunksize)))
+        ergebnis3 = ergebnis
+    # print(ergebnis)
+    # print(ergebnis)
     with open("prim.txt","a") as f:
-                f.write(str(ergebnis).replace("None, ",""))
+                ergebnis2 = str(ergebnis)
+                ergebnis2 = ergebnis2.replace("[","")
+                ergebnis2 = ergebnis2.replace("]","")
+                # print(ergebnis2)
+                f.write(ergebnis2)
                 f.close()
     
     end_time = time.time()
     with open("prim.txt","r") as f:
-        a = f.read().split()
-        b = a[-2].replace(",","")
+        a = f.read()
         f.close()
-        b = int(b)
+        b = ergebnis3[-1]
 
         c = f"{b:_}"
         c = c.replace("_",".")

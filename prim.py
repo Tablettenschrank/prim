@@ -6,43 +6,35 @@ from numba import njit
 start_time = time.time()
 
 processes = 7
-limit1 = 10_000_000
-chunksize=2_000_000
-
-#print('IMPORTANT! You need a "prim.txt" file!')
-#print('IMPORTANT! You need a "prim.txt" file!')
-#print('IMPORTANT! You need a "prim.txt" file!')
-#print('IMPORTANT! You need a "prim.txt" file!')
+limit0 = 3 # 3 is default
+limit1 = 50_000_000
+chunksize=100_000
 
 with open("prim.txt","w") as f:
     f.write("")
     f.close()
 
-def primZahl(zahl):
+@njit
+def primZahl(zahl:int):
     if zahl <= 1:
         return
-    if zahl % 2 == 0:
-        return
-    for i in range(2, int(zahl ** 0.5) + 1):
+    for i in range(3, int(math.sqrt(zahl)) + 1,2):
         if zahl % i == 0:
             return
     return zahl    
 
 if __name__ == "__main__":
-    limit = range(3,limit1,2)
+    limit = range(limit0,limit1,2)
     with multiprocessing.Pool(processes) as p:
         ergebnis = list(filter(None,p.map(primZahl,limit,chunksize)))
-        ergebnis3 = ergebnis
-    # print(ergebnis)
-    # print(ergebnis)
+    
     with open("prim.txt","a") as f:
                 ergebnis2 = str(ergebnis)
                 ergebnis2 = ergebnis2.replace("[","")
                 ergebnis2 = ergebnis2.replace("]","")
-                # print(ergebnis2)
                 f.write(ergebnis2)
                 f.close()
-    
+    ergebnis3 = ergebnis
     end_time = time.time()
     with open("prim.txt","r") as f:
         a = f.read()
@@ -51,27 +43,27 @@ if __name__ == "__main__":
 
         c = f"{b:_}"
         c = c.replace("_",".")
-
-        d = len(a)
+        
+        d = len(ergebnis)
         e = f"{d:_}"
         e = e.replace("_",".")
 
         limit1txt = f"{limit1:_}"
         limit1txt = limit1txt.replace("_",".")
 
+        limit0txt = f"{limit0:_}"
+        limit0txt = limit0txt.replace("_",".")
+
         chunksize = f"{chunksize:_}"
         chunksize = chunksize.replace("_",".")
 
-
-    # print("---------------------------------")
-    # print(len(ergebnis),"Prim's")
-    # print(a)
     print("---------------------------------")
-    print("0","-",limit1txt)
+    print(limit0,"-",limit1txt)
     print("")
     print("Last Number: ",c)
     print("Calculatet Prim's: ",e)
     print("chunksize: ",chunksize )
+    print("")
     runtime = end_time - start_time
     print(f"{runtime:.3f}","Seconds")
     print(f"{runtime/60:.3f}","Minutes")

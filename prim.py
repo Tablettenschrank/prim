@@ -6,8 +6,8 @@ from numba import njit
 start_time = time.time()
 
 processes = 7
-limit1 = 100_0_0
-chunksize=2_0_000
+limit1 = 10_000_000
+chunksize=2_000_000
 
 #print('IMPORTANT! You need a "prim.txt" file!')
 #print('IMPORTANT! You need a "prim.txt" file!')

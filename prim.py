@@ -7,7 +7,11 @@ processes = 7
 limit1 = 100_000_000
 chunksize=20_000_000
 
-#print('IMPORTANT! You Should have a "prim.txt"')
+#print('IMPORTANT! You need a "prim.txt" file!')
+#print('IMPORTANT! You need a "prim.txt" file!')
+#print('IMPORTANT! You need a "prim.txt" file!')
+#print('IMPORTANT! You need a "prim.txt" file!')
+
 with open("prim.txt","w") as f:
     f.write("")
     f.close()

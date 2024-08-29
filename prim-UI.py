@@ -4,6 +4,8 @@ import math
 import FreeSimpleGUI as fsg
 from numba import njit
 
+fsg.theme_global("DarkBrown")
+
 layout = [
     [
         fsg.Text("Hallo",key="text",font="Any 24")
@@ -41,7 +43,7 @@ if __name__ == "__main__":
     limit = range(begin,end,2)
     with multiprocessing.Pool(processes) as p:
         ergebniss = list(filter(None,p.map(primZahl,limit,chunksize)))
-    
+
     end_time = time.time()
     with open("prim.txt","a") as f:
         weg = ", ".join(map(str,ergebniss))

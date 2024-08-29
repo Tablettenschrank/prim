@@ -5,10 +5,10 @@ from numba import njit
 
 start_time = time.time()
 
-processes = 10
-limit0 = 3 # 3 is default
-limit1 = 250_000_000
-chunksize=20_000
+processes = 4 # Cores
+begin = 3 # 3 is default
+end = 50_000_000
+chunksize=10_000
 
 with open("prim.txt","w") as f:
     f.write("")
@@ -29,7 +29,7 @@ def primZahl(zahl:int):
     return zahl    
 
 if __name__ == "__main__":
-    limit = range(limit0,limit1,2)
+    limit = range(begin,end,2)
     with multiprocessing.Pool(processes) as p:
         ergebniss = list(filter(None,p.map(primZahl,limit,chunksize)))
     
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     lastNumber = ergebniss[-1]
         
     print("---------------------------------")
-    print(Format(limit0),"-",Format(limit1))
+    print(Format(begin),"-",Format(end))
     print("")
     print("Last Number: ",Format(lastNumber))
     print("Calculatet Prim's: ",Format(ergebnissAmount))

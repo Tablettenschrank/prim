@@ -72,7 +72,6 @@ def output(begin,end,chunksize,end_time,start_time,ergebniss):
     print("---------------------------------")
     return
 
-
 @njit
 def primZahl(zahl:int)->int:
     if zahl <= 1:

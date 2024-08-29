@@ -7,13 +7,18 @@ from numba import njit
 
 
 fsg.theme_global("DarkBrown")
+def test():
 
-layout = [
-    [
-        fsg.Text("Hallo",key="text",font="Any 24")
+    layout = [
+        [
+            fsg.Text("Hallo",key="text",font="Any 24")
+        ]
     ]
-]
-window = fsg.Window("Das Fenster",layout,finalize=True)
+    def warte5Sekunden():
+        time.sleep(5)
+        window.write_event_value("Event","Ausgelöst")
+    window = fsg.Window("Das Fenster",layout,finalize=True)
+
 # def createWindow(layout):
 #     window = fsg.Window("Das Fenster",layout,finalize=True)
 #     return window
@@ -58,10 +63,6 @@ def output(begin,end,chunksize,end_time,start_time,ergebniss):
     print("---------------------------------")
     return
 
-def warte5Sekunden():
-    time.sleep(5)
-
-    window.write_event_value("Event","Ausgelöst")
 
 @njit
 def primZahl(zahl:int):
@@ -82,6 +83,7 @@ def ergebnissCalc(processes,limit,chunksize):
 ##################################################################
 
 if __name__ == "__main__":
+    test()
     # threading.Thread(target=warte5Sekunden,daemon=True).start()
     ergebniss = ergebnissCalc(processes,limit,chunksize)
     end_time = time.time()
@@ -89,15 +91,15 @@ if __name__ == "__main__":
 
     output(begin,end,chunksize,end_time,start_time,ergebniss)
 
-    while True:
-       e,v = window.read()
-       print(e,v)
+    # while True:
+    #    e,v = window.read()
+    #    print(e,v)
 
-       if e is None:
-           window.close()
-           break
+    #    if e is None:
+    #        window.close()
+    #        break
 
-       if e == "Event":
-           window["text"](v["Event"])
+    #    if e == "Event":
+    #        window["text"](v["Event"])
 
-    print("Ende")
+    # print("Ende")

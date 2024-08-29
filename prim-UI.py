@@ -1,8 +1,10 @@
 import multiprocessing
 import time
 import math
+import threading
 import FreeSimpleGUI as fsg
 from numba import njit
+
 
 fsg.theme_global("DarkBrown")
 
@@ -11,15 +13,18 @@ layout = [
         fsg.Text("Hallo",key="text",font="Any 24")
     ]
 ]
-
 window = fsg.Window("Das Fenster",layout,finalize=True)
+# def createWindow(layout):
+#     window = fsg.Window("Das Fenster",layout,finalize=True)
+#     return window
 
+# createWindow(layout)
 start_time = time.time()
 
 processes = 3 # Cores
 begin = 3 # 3 is default
-end = 50_000_000
-chunksize=10_000
+end = 5_000_000
+chunksize=1_000
 
 with open("prim.txt","w") as f:
     f.write("")
@@ -30,28 +35,16 @@ def Format(string1:str)-> str:
     string2 = string2.replace("_",".")
     return string2
 
-@njit
-def primZahl(zahl:int):
-    if zahl <= 1:
-        return
-    for i in range(3, int(math.sqrt(zahl)) + 1,2):
-        if zahl % i == 0:
-            return
-    return zahl    
-
-if __name__ == "__main__":
-    limit = range(begin,end,2)
-    with multiprocessing.Pool(processes) as p:
-        ergebniss = list(filter(None,p.map(primZahl,limit,chunksize)))
-
-    end_time = time.time()
+def Format2(ergebniss):
     with open("prim.txt","a") as f:
         weg = ", ".join(map(str,ergebniss))
         f.write(weg)
         f.close()
+    return
+
+def output(begin,end,chunksize,end_time,start_time,ergebniss):
     ergebnissAmount = len(ergebniss)
     lastNumber = ergebniss[-1]
-        
     print("---------------------------------")
     print(Format(begin),"-",Format(end))
     print("")
@@ -63,3 +56,48 @@ if __name__ == "__main__":
     print(f"{runtime:.3f}","Seconds")
     print(f"{runtime/60:.3f}","Minutes")
     print("---------------------------------")
+    return
+
+def warte5Sekunden():
+    time.sleep(5)
+
+    window.write_event_value("Event","Ausgelöst")
+
+@njit
+def primZahl(zahl:int):
+    if zahl <= 1:
+        return
+    for i in range(3, int(math.sqrt(zahl)) + 1,2):
+        if zahl % i == 0:
+            return
+    return zahl    
+
+limit = range(begin,end,2)
+
+def ergebnissCalc(processes,limit,chunksize):
+    with multiprocessing.Pool(processes) as p:
+        ergebniss = list(filter(None,p.map(primZahl,limit,chunksize)))
+    return ergebniss
+
+##################################################################
+
+if __name__ == "__main__":
+    # threading.Thread(target=warte5Sekunden,daemon=True).start()
+    ergebniss = ergebnissCalc(processes,limit,chunksize)
+    end_time = time.time()
+    Format2(ergebniss)
+
+    output(begin,end,chunksize,end_time,start_time,ergebniss)
+
+    while True:
+       e,v = window.read()
+       print(e,v)
+
+       if e is None:
+           window.close()
+           break
+
+       if e == "Event":
+           window["text"](v["Event"])
+
+    print("Ende")

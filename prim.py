@@ -5,7 +5,7 @@ from numba import njit
 
 start_time = time.time()
 
-processes = 4 # Cores
+processes = 3 # Cores
 begin = 3 # 3 is default
 end = 50_000_000
 chunksize=10_000

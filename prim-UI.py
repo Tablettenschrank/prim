@@ -39,6 +39,7 @@ processes = 3 # Cores
 begin = 3 # 3 is default
 end = 5_000_000
 chunksize=1_000
+cli_output = True
 
 with open("prim.txt","w") as f:
     f.write("")
@@ -70,7 +71,8 @@ def output(begin,end,chunksize,end_time,start_time,ergebniss):
     print(f"{runtime:.3f}","Seconds")
     print(f"{runtime/60:.3f}","Minutes")
     print("---------------------------------")
-    return
+    if cli_output == True:
+        return
 
 @njit
 def primZahl(zahl:int)->int:

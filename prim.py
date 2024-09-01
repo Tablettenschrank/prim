@@ -7,7 +7,7 @@ start_time = time.time()
 
 processes = 3 # Cores
 begin = 3 # 3 is default
-end = 50_000_000
+end = 500_000_000   
 chunksize=10_000
 
 with open("prim.txt","w") as f:

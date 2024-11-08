@@ -5,12 +5,22 @@ from numba import njit
 
 start_time = time.time()
 
+resetFile = False
 processes = 3 # Cores
 begin = 3 # 3 is default
-end = 500_000_000   
-chunksize=10_000
+end = 500_000_0
+chunksize=10_00
+
+if resetFile:
+    quit
+else:
+    print("lol")
 
 with open("prim.txt","w") as f:
+    f.write("")
+    f.close()
+    
+with open("tmp.txt","w") as f:
     f.write("")
     f.close()
 
@@ -40,6 +50,10 @@ if __name__ == "__main__":
         f.close()
     ergebnissAmount = len(ergebniss)
     lastNumber = ergebniss[-1]
+
+    with open("tmp.txt","a") as f:
+        f.write(str(lastNumber))
+        f.close()
         
     print("---------------------------------")
     print(Format(begin),"-",Format(end))

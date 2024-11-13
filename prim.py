@@ -29,31 +29,27 @@ if __name__ == "__main__":
     start_time = time.time()
 
     resetFile = False
-    more = True #if true and reset file = False, then it's calculate the mew diffrience between begin and end
-    processes = 7 # Cores
+    processes = 2 # Cores
     begin = 3 # 3 is default
-    end = 500_0_0
-    chunksize=10_00
+    end = 50_0_0
+    chunksize=10_0
 
     if resetFile:
         with open("prim.txt","w") as f:
             f.write("")
             f.close()
+        limit = range(begin,end,2)
+        print("Bier")
     else:
         with open("tmp.txt","r") as f:
-            begin = f.readline()
-            print(begin)
+            tmpNumber = f.readline()
             f.close()
-            print(begin)
-            begin = int(begin)
-        if more:
-            end = end + begin
-            print("more!!!")
+        print(tmpNumber)
+        begin = int(tmpNumber)    
+        end = end + begin
+        limit = range(begin,end,2)
+        print("Baum")
 
-    
-  
-    limit = range(begin,end,2)
-    
     with multiprocessing.Pool(processes) as p:
         ergebniss = list(filter(None,p.map(primZahl,limit,chunksize)))
     
